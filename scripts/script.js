@@ -1,10 +1,7 @@
 console.log("Test");
 //rock paper scissor game played with computer
+
 //let the computer throw his options randomly(either Rock,Sciessor or papper)
-
-
-
-
 
 function computerPlay(){
     // generate random number between out of 1(Rock),2(sciccor) and 3(papper)
@@ -18,33 +15,49 @@ if(randomIntBetween1and3===1){
     placedBycomputer="papper";
 }
 return placedBycomputer;
-console.log(placedBycomputer);
-
 }
-//accept user to throw is options
+//accept user input
 function userPlay(){
     let userInput=prompt("throw your guess out of Rock,Papper or Scissors");
     let convertedInput=userInput.toLowerCase();
-    let userVal="";
+    let placedByUser="";
    if(convertedInput==="rock" ||convertedInput==="papper"||convertedInput==="scissors"){
     
-    userVal=convertedInput;
-       console.log(userVal)
+    placedByUser=convertedInput;
+      
    }else{
         console.log("check your choice, wrong input used");
    }
-return userVal;
+return placedByUser;
 }
 
 //play the rock papper game
+
+//store the computer guess and the user input into variables
+let playerSelection=userPlay();
+console.log(playerSelection);
+let computerSelection=computerPlay();
+console.log(computerSelection);
 function  playRockPapper(playerSelection,computerSelection){
-    
+   
+    if(computerSelection==="papper"&&playerSelection==="rock"){
+        console.log("you Lose!,Papper beats Rock");
+    }else if(computerSelection==="rock"&& playerSelection==="scissors"){
+        console.log("you Lose!,Rock beats Scissors");
+    }else if(computerSelection==="scissors"&& playerSelection==="papper"){
+        console.log("you Lose!,Scissors beats papper");
+    }else if(computerSelection==="rock"&&playerSelection==="papper"){
+        console.log("you Win!,Papper beats Rock");
+    }else if(computerSelection==="scissors"&& playerSelection==="rock"){
+        console.log("you Win!,Rock beats Scissors");
+    }else if(computerSelection==="papper"&& playerSelection==="scissors"){
+        console.log("you Win!,Scissors beats papper");
+    }else{
+        console.log("it'\s drow, lets play again");
+    }
 
 }
 
-//if the user guess what the computer throws, the user wins
+// run the function to play
+playRockPapper(playerSelection,computerSelection);
 
-//else the computer wins
-
-computerPlay();
-userPlay();
