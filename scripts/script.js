@@ -39,6 +39,8 @@ console.log(playerSelection);
 let computerSelection=computerPlay();
 console.log(computerSelection);
 function  playRockPapper(playerSelection,computerSelection){
+    let score=0;
+    
    
     if(computerSelection==="papper"&&playerSelection==="rock"){
         console.log("you Lose!,Papper beats Rock");
@@ -48,16 +50,40 @@ function  playRockPapper(playerSelection,computerSelection){
         console.log("you Lose!,Scissors beats papper");
     }else if(computerSelection==="rock"&&playerSelection==="papper"){
         console.log("you Win!,Papper beats Rock");
+        score++;
     }else if(computerSelection==="scissors"&& playerSelection==="rock"){
         console.log("you Win!,Rock beats Scissors");
+        score++;
     }else if(computerSelection==="papper"&& playerSelection==="scissors"){
         console.log("you Win!,Scissors beats papper");
+        score++;
     }else{
         console.log("it'\s drow, lets play again");
     }
-
+return score;
 }
 
 // run the function to play
-playRockPapper(playerSelection,computerSelection);
+//playRockPapper(playerSelection,computerSelection);
 
+//function to record the score out of 5 round and report the result
+function game(){
+    let result=""
+    //iterate the game 5 times
+    for(let i=1;i<=5;i++){
+        //variables to store the result
+        let player = 0;
+        let computer=0;
+        
+        let score= playRockPapper(playerSelection,computerSelection);
+        if(score===0){
+            computer++;
+        }else{
+            player++;
+        }
+        result= `Computer=${computer} : player=${player}`;
+    }
+    return result;
+}
+let finalResult= game();
+console.log(finalResult);
