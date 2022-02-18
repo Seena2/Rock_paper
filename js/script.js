@@ -11,7 +11,7 @@ function  playRound(){
     let playerSelection=userPlay(); //call userPlay function to accept user input 
       plyr.textContent=playerSelection;//bind to btn 
       let computerSelection=computerPlay();//generate Rock,paper and scissors
-      cmp.textContent=computerSelection;
+      cmp.innerText=computerSelection;
       let message='';  
       let results=['',0,0 ]; //holds message and scores
     if(computerSelection==="papper"&&playerSelection==="rock"){
