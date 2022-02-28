@@ -1,8 +1,16 @@
 //console.log("Test");
 //ROCK-PAPER-SCISSOR GAME PLAYED WITH COMPUTER
 
-//playRound  function
-let score=0;
+const choices = document.querySelectorAll('.choice'); //get all elmts with class name choice and put it into nodelist(like array)
+const score = document.getElementById('score');
+const result = document.getElementById('result');
+const restart = document.getElementById('restart');
+const modal = document.querySelector('.modal');
+const scoreBoard = [0, 0]; //we can use objects here scorb={playe:0, computer:0}
+//PLAY GAME function
+//let score=0;
+//method 1: by prompt
+/*
 function  playRound(){
       //console.log(1); //test the function
     //store the computer guess and the user input into variables
@@ -44,60 +52,170 @@ function  playRound(){
     }
     return results;
 }
-
-
-//function to let the computer throw his options randomly(either Rock,Sciessor or papper)
-function computerPlay(){
-    // generate random number between (1 -3),which is 1(Rock),2(sciccor) and 3(papper)
-const randomIntBetween1and3=Math.floor(Math.random()*3)+1;
-let placedBycomputer="";
-if(randomIntBetween1and3===1){
-    placedBycomputer="rock";
-}else if(randomIntBetween1and3===2){
-    placedBycomputer="scissors";
-}else if(randomIntBetween1and3===3){
-    placedBycomputer="papper";
-}
-return placedBycomputer;
-}
-//function to accept user input
-function userPlay(){
-    let userInput=prompt("throw your guess out of Rock,Papper or Scissors");
-    let convertedInput=userInput.toLowerCase();
-    let placedByUser="";
-   if(convertedInput==="rock"||convertedInput==="papper"||convertedInput==="scissors"){
-    placedByUser=convertedInput; 
-   }else{
+*/
+//function to accept user input from prompt
+/*
+function userPlay() {
+    let userInput = prompt("throw your guess out of Rock,Papper or Scissors");
+    let convertedInput = userInput.toLowerCase();
+    let placedByUser = "";
+    if (convertedInput === "rock" || convertedInput === "papper" || convertedInput === "scissors") {
+        placedByUser = convertedInput;
+    } else {
         console.log("check your choice, wrong input used");
-   }
-return placedByUser;
+    }
+    return placedByUser;
 }
-// test function call
-//console.log(playRound(playerSelection,computerSelection)) //modified to no arguement
+*/
 
 //ADDITIONAL CHALLENGE
-function game(){
+/*
+function game() {
     //calls playRound function  5 times and keeps score and reports
-    ////winner or loser at the end
+    //winner or loser at the end
 
     //value to hold scores of play when 5 round is played
-    let grade=[0,0] 
-    for(let i=0;i<5;i++){
-        let rest=playRound();
-        let rnd=document.getElementById('round');// grap p to display each rounds result
-        rnd.textContent=rest[0];
-        if(rest[1]===1){
+    let grade = [0, 0]
+    for (let i = 0; i < 5; i++) {
+        let rest = playRound();
+        let rnd = document.getElementById('round');// grab p to display each rounds result
+        rnd.textContent = rest[0];
+        if (rest[1] === 1) {
             grade[0]++;
-        }else if(rest[2]===1){
+        } else if (rest[2] === 1) {
             grade[1]++;
         }
     }
-     //grab div for displaying result
-     let computerScore= document.getElementById('computerScore');
-     let playerScore= document.getElementById('playerScore');
-     computerScore.textContent=grade[0];
-     playerScore.textContent=grade[1];
+    //grab div for displaying result
+    let computerScore = document.getElementById('computerScore');
+    let playerScore = document.getElementById('playerScore');
+    computerScore.textContent = grade[0];
+    playerScore.textContent = grade[1];
 }
 
-let play=document.getElementById('play'); //grab play btn
-play.addEventListener('click',game); //add listener to it
+// test function call
+//console.log(playRound(playerSelection,computerSelection)) //modified to no arguement for method 1
+let play = document.getElementById('play'); //grab play btn
+play.addEventListener('click', game); //add listener to it
+*/
+//Method 2: by UI, 
+function playRound(e) { //listens to event
+    restart.style.display = 'inline-block';//activate the hidden restart button when player makes its choice
+    const playerSelection = e.target.id;//capture id of clicked icon
+    const computerSelection = computerPlay();
+    //console.log(playerSelection,computerSelection);
+    const winner = getWinner(playerSelection, computerSelection);
+    //console.log(playerSelection,computerSelection,winner);
+    showWinner(winner, computerSelection, playerSelection);
+}
+//Event Listeners 
+choices.forEach(choice => choice.addEventListener('click', playRound));
+window.addEventListener('click', clearModal);//close popup modal when clicked
+restart.addEventListener('click', restartGame);
+//Clear modal
+function clearModal(e) {
+    if (e.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+//Restart Game button, clears the scores and start counting as new
+function restartGame(){
+    scoreBoard[0]=0;
+    scoreBoard[1]=0;
+    //clear html
+    score.innerHTML=   `
+    <p>Computer:0</p>
+    <p>Player:0</p>
+    `;
+}
+//Computer Selection
+function computerPlay() {
+    // generate random number between (1&3),which is 1(Rock),2(scissors) and 3(papper)
+    const randomIntBetween1and3 = Math.floor(Math.random() * 3) + 1;
+
+    if (randomIntBetween1and3 === 1) {
+        return "rock";
+    } else if (randomIntBetween1and3 === 2) {
+        return "scissors";
+    } else if (randomIntBetween1and3 === 3) {
+        return "paper";
+    }
+}
+//Get game winner
+function getWinner(p, c) {
+    const msg = [0, 0];
+    if (p === c) {
+        return "draw";
+    } else if (p === 'rock') {
+        if (c === 'paper') {
+            msg[0] = 'computer';
+            msg[1] = 'Paper beats Rock';
+            return msg;
+        } else {
+            msg[0] = 'player';
+            msg[1] = 'Rock beats Scissors';
+            return msg;
+        }
+    } else if (p === 'paper') {
+        if (c === 'sissors') {
+            msg[0] = 'computer';
+            msg[1] = 'Scissors beats Paper';
+            return msg;
+        } else {
+            msg[0] = 'player';
+            msg[1] = 'Paper beats Rock';
+            return msg;
+        }
+    } else if (p === 'scissors') {
+        if (c === 'rock') {
+            msg[0] = 'computer';
+            msg[1] = 'Rock beats Scissors';
+            return msg;
+        } else {
+            msg[0] = 'player';
+            msg[1] = 'Scissors beats Paper';
+            return msg;
+        }
+    }
+}
+//Show the Winner of the Game
+function showWinner(winner, computerSelection, playerSelection) {
+    if (winner[0] === 'player') {      //winner[0]==msg[0]
+        //increement player score
+        scoreBoard[0]++;
+        //pop the modal to show the result on the modal
+        result.innerHTML = `
+        <h1 class='txt-win'> You Win</h1> </br>
+        <i class="fas fa-hand-rock fa-6x"></i> <br>
+        <p>Computer Selection :${computerSelection}</p>
+        <p>player Selection:${playerSelection}</p>
+        <strong>${winner[1]}  </strong>
+        `;
+    } else if (winner[0] === 'computer') {
+        //increement computer score
+        scoreBoard[1]++;
+        //pop the modal to display  the result on the modal
+        result.innerHTML = `
+        <h1 class='txt-lose'> You Lose </h1> </br>
+        <i class="fa-solid fa-thumbs-down fa-6x"></i> <br>
+        <p>Computer Selection : ${computerSelection}</p>
+        <p>player Selection: ${playerSelection} </p> 
+        <strong> ${winner[1]}</strong>
+        `;
+    } else {
+        result.innerHTML = `
+        <h1 > It's a Draw,</h1>
+        <i class="fa-solid fa-grip-lines fa-6x"></i> <br>
+        <p>Computer Selection: ${computerSelection} </p>
+        <p>player Selection: ${playerSelection}</p> 
+        `;
+    }
+    //Show score
+    score.innerHTML = `
+    <p> Player: ${scoreBoard[0]}</p>
+    <p>computer: ${scoreBoard[1]}</p>
+    `;
+    //display the modal,since the difailt is none
+    modal.style.display = 'block';
+
+}
