@@ -220,3 +220,8 @@ function showWinner(winner, computerSelection, playerSelection) {
     modal.style.display = 'block';
 
 }
+
+
+//ADDITIONAL CHALLENGE
+//1-start the game when play Game button is clicked, add html btn to the page
+//play 5 round and display the overall winner and the result
