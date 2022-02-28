@@ -109,9 +109,10 @@ function playRound(e) { //listens to event
     showWinner(winner, computerSelection, playerSelection);
 }
 //Event Listeners 
+//start game when player clicks icon
 choices.forEach(choice => choice.addEventListener('click', playRound));
 window.addEventListener('click', clearModal);//close popup modal when clicked
-restart.addEventListener('click', restartGame);
+restart.addEventListener('click', restartGame); //clear score recorded on html and Js and starts as new
 //Clear modal
 function clearModal(e) {
     if (e.target == modal) {
